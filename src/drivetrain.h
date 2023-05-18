@@ -16,6 +16,7 @@ class Drivetrain {
         double right_speed = 0.0;
 
         void arcadeDrive (int analogSpeed, int analogRotation, std::string scaling_mode);
+        void driveStraight (double inches);
 };
 
 void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation, std::string scaling_mode) {
@@ -53,4 +54,15 @@ void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation, std::string s
     this -> front_right_motor.move(-right * 127.0);
     this -> back_left_motor.move(-left * 127.0);
     this -> back_right_motor.move(-right * 127.0);
+}
+
+void Drivetrain::driveStraight (double inches) {
+    
+    double rotations = inches / (16.0 * std::atan(1.0));
+    int encoderClicks = rotations * 900;
+
+    this -> front_left_motor.move_relative(encoderClicks, 80);
+    this -> front_right_motor.move_relative(-encoderClicks, 80);
+    this -> back_left_motor.move_relative(encoderClicks, 80);
+    this -> back_right_motor.move_relative(-encoderClicks, 80);
 }
