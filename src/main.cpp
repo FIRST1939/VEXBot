@@ -67,7 +67,15 @@ void competition_initialize() {}
 void autonomous() {
 
 	Drivetrain drivetrain;
-	drivetrain.driveStraight(12);
+
+	for (int i = 0; i < 4; i++) {
+
+		drivetrain.driveStraight(12);
+		pros::delay(2000);
+
+		drivetrain.turn(90);
+		pros::delay(2000);
+	}
 }
 
 /**

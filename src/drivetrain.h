@@ -17,6 +17,7 @@ class Drivetrain {
 
         void arcadeDrive (int analogSpeed, int analogRotation, std::string scaling_mode);
         void driveStraight (double inches);
+        void turn (double degrees);
 };
 
 void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation, std::string scaling_mode) {
@@ -65,4 +66,22 @@ void Drivetrain::driveStraight (double inches) {
     this -> front_right_motor.move_relative(-encoderClicks, AutonomousConstants::maximum_rpm);
     this -> back_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
     this -> back_right_motor.move_relative(-encoderClicks, AutonomousConstants::maximum_rpm);
+
+    while (this -> front_left_motor.get_actual_velocity() != 0.0) { pros::delay(10); }
+}
+
+void Drivetrain::turn (double degrees) {
+
+    double arcLength = degrees / 360.0;
+    double distanceTraveled = arcLength * AutonomousConstants::track_width * std::atan(1.0) * 4.0;
+
+    double rotations = distanceTraveled / (AutonomousConstants::wheel_diameter * std::atan(1.0) * 4.0);
+    int encoderClicks = rotations * 900;
+
+    this -> front_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> front_right_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> back_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> back_right_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+
+    while (this -> front_left_motor.get_actual_velocity() != 0.0) { pros::delay(10); }
 }
