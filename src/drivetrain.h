@@ -58,11 +58,11 @@ void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation, std::string s
 
 void Drivetrain::driveStraight (double inches) {
     
-    double rotations = inches / (16.0 * std::atan(1.0));
+    double rotations = inches / (AutonomousConstants::wheel_diameter * std::atan(1.0) * 4.0);
     int encoderClicks = rotations * 900;
 
-    this -> front_left_motor.move_relative(encoderClicks, 110);
-    this -> front_right_motor.move_relative(-encoderClicks, 110);
-    this -> back_left_motor.move_relative(encoderClicks, 110);
-    this -> back_right_motor.move_relative(-encoderClicks, 110);
+    this -> front_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> front_right_motor.move_relative(-encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> back_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> back_right_motor.move_relative(-encoderClicks, AutonomousConstants::maximum_rpm);
 }

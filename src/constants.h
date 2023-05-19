@@ -6,3 +6,10 @@ class DrivetrainConstants {
         static const int back_left_motor = 1;
         static const int back_right_motor = 2;
 };
+
+class AutonomousConstants {
+
+    public:
+        static const double wheel_diameter = 4.0;
+        static const double maximum_rpm = 110.0;
+};
