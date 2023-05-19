@@ -61,8 +61,8 @@ void Drivetrain::driveStraight (double inches) {
     double rotations = inches / (16.0 * std::atan(1.0));
     int encoderClicks = rotations * 900;
 
-    this -> front_left_motor.move_relative(encoderClicks, 80);
-    this -> front_right_motor.move_relative(-encoderClicks, 80);
-    this -> back_left_motor.move_relative(encoderClicks, 80);
-    this -> back_right_motor.move_relative(-encoderClicks, 80);
+    this -> front_left_motor.move_relative(encoderClicks, 110);
+    this -> front_right_motor.move_relative(-encoderClicks, 110);
+    this -> back_left_motor.move_relative(encoderClicks, 110);
+    this -> back_right_motor.move_relative(-encoderClicks, 110);
 }
