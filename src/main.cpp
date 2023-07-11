@@ -2,19 +2,19 @@
 #include <string>
 
 #include "drivetrain.h"
-std::string scaling_mode = "Proportional";
+std::string drive_control = "Arcade";
 
-void toggle_scaling_mode () {
+void switch_drive_control () {
 
-	if (scaling_mode.compare("Proportional") == 0) {
+    if (drive_control.compare("Arcade") == 0) {
 
-		scaling_mode = "Differential";
-		pros::lcd::print(4, "1) Turn Scaling: Differential");
-	} else {
+        drive_control = "Tank";
+        pros::lcd::print(4, "1) Drive Control: Tank");
+    } else {
 
-		scaling_mode = "Proportional";
-		pros::lcd::print(4, "1) Turn Scaling: Proportional");
-	}
+        drive_control = "Arcade";
+        pros::lcd::print(4, "1) Drive Control: Arcade");
+    }
 }
 
 /**
@@ -29,10 +29,10 @@ void initialize () {
 	pros::lcd::set_background_color(66, 191, 124);
 
 	pros::lcd::print(0, "FRC 1939 - THE KUHNIGITS");
-	pros::lcd::print(4, "1) Turn Scaling: Proportional");
+	pros::lcd::print(4, "1) Drive Control: Arcade");
 	pros::lcd::print(7, "  1.           2.            3.");
 
-	pros::lcd::register_btn0_cb(toggle_scaling_mode);
+	pros::lcd::register_btn0_cb(switch_drive_control);
 }
 
 /**
@@ -98,11 +98,25 @@ void opcontrol () {
 
 	while (true) {
 
-		drivetrain.arcadeDrive(
-			controller.get_analog(ANALOG_LEFT_Y), 
-			controller.get_analog(ANALOG_RIGHT_X), 
-			scaling_mode
-		);
+        if (drive_control.compare("Arcade") == 0) {
+
+            drivetrain.arcadeDrive(
+                controller.get_analog(ANALOG_LEFT_Y), 
+                controller.get_analog(ANALOG_RIGHT_X)
+            );
+        } else if (drive_control.compare("Tank") == 0) {
+
+            drivetrain.tankDrive(
+                controller.get_analog(ANALOG_LEFT_Y), 
+                controller.get_analog(ANALOG_RIGHT_Y)
+            );
+        } else {
+
+            drivetrain.curvatureDrive(
+                controller.get_analog(ANALOG_LEFT_Y), 
+                controller.get_analog(ANALOG_RIGHT_X)
+            );
+        }
 
 		pros::lcd::print(1, "Left Speed: %f", drivetrain.left_speed);
 		pros::lcd::print(2, "Right Speed: %f", drivetrain.right_speed);
