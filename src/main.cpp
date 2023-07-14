@@ -8,6 +8,10 @@ void switch_drive_control () {
 
     if (drive_control.compare("Arcade") == 0) {
 
+        drive_control = "Curvature";
+        pros::lcd::print(4, "1) Drive Control: Curvature");
+    } else if (drive_control.compare("Curvature") == 0) {
+
         drive_control = "Tank";
         pros::lcd::print(4, "1) Drive Control: Tank");
     } else {

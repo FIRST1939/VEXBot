@@ -49,9 +49,10 @@ void Drivetrain::curvatureDrive (int analogSpeed, int analogRotation) {
 
     double speed = analogSpeed / 127.0;
     double rotation = analogRotation / 127.0;
+    if (speed > 0.0) { rotation *= -1.0; }
 
-    double leftSpeed = speed - rotation;
-    double rightSpeed = speed + rotation;
+    double leftSpeed = speed - std::abs(speed) * rotation;
+    double rightSpeed = speed + std::abs(speed) * rotation;
 
     if (std::max(std::abs(leftSpeed), std::abs(rightSpeed)) > 1.0) {
 
@@ -63,9 +64,9 @@ void Drivetrain::curvatureDrive (int analogSpeed, int analogRotation) {
     this -> right_speed = rightSpeed;
 
     this -> front_left_motor.move(leftSpeed * 127.0);
-    this -> front_right_motor.move(rightSpeed * 127.0);
+    this -> front_right_motor.move(-rightSpeed * 127.0);
     this -> back_left_motor.move(leftSpeed * 127.0);
-    this -> back_right_motor.move(rightSpeed * 127.0);
+    this -> back_right_motor.move(-rightSpeed * 127.0);
 }
 
 void Drivetrain::tankDrive (int leftAnalogSpeed, int rightAnalogSpeed) {
@@ -77,9 +78,9 @@ void Drivetrain::tankDrive (int leftAnalogSpeed, int rightAnalogSpeed) {
     this -> right_speed = rightSpeed;
 
     this -> front_left_motor.move(leftSpeed * 127.0);
-    this -> front_right_motor.move(rightSpeed * 127.0);
+    this -> front_right_motor.move(-rightSpeed * 127.0);
     this -> back_left_motor.move(leftSpeed * 127.0);
-    this -> back_right_motor.move(rightSpeed * 127.0);
+    this -> back_right_motor.move(-rightSpeed * 127.0);
 }
 
 void Drivetrain::driveStraight (double inches) {
