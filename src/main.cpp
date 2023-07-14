@@ -2,24 +2,6 @@
 #include <string>
 
 #include "drivetrain.h"
-std::string drive_control = "Arcade";
-
-void switch_drive_control () {
-
-    if (drive_control.compare("Arcade") == 0) {
-
-        drive_control = "Curvature";
-        pros::lcd::print(4, "1) Drive Control: Curvature");
-    } else if (drive_control.compare("Curvature") == 0) {
-
-        drive_control = "Tank";
-        pros::lcd::print(4, "1) Drive Control: Tank");
-    } else {
-
-        drive_control = "Arcade";
-        pros::lcd::print(4, "1) Drive Control: Arcade");
-    }
-}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -33,10 +15,7 @@ void initialize () {
 	pros::lcd::set_background_color(66, 191, 124);
 
 	pros::lcd::print(0, "FRC 1939 - THE KUHNIGITS");
-	pros::lcd::print(4, "1) Drive Control: Arcade");
 	pros::lcd::print(7, "  1.           2.            3.");
-
-	pros::lcd::register_btn0_cb(switch_drive_control);
 }
 
 /**
@@ -102,25 +81,10 @@ void opcontrol () {
 
 	while (true) {
 
-        if (drive_control.compare("Arcade") == 0) {
-
-            drivetrain.arcadeDrive(
-                controller.get_analog(ANALOG_LEFT_Y), 
-                controller.get_analog(ANALOG_RIGHT_X)
-            );
-        } else if (drive_control.compare("Tank") == 0) {
-
-            drivetrain.tankDrive(
-                controller.get_analog(ANALOG_LEFT_Y), 
-                controller.get_analog(ANALOG_RIGHT_Y)
-            );
-        } else {
-
-            drivetrain.curvatureDrive(
-                controller.get_analog(ANALOG_LEFT_Y), 
-                controller.get_analog(ANALOG_RIGHT_X)
-            );
-        }
+        drivetrain.drive(
+            controller.get_analog(ANALOG_LEFT_Y), 
+            controller.get_analog(ANALOG_RIGHT_X)
+        );
 
 		pros::lcd::print(1, "Left Speed: %f", drivetrain.left_speed);
 		pros::lcd::print(2, "Right Speed: %f", drivetrain.right_speed);

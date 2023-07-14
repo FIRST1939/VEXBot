@@ -1,6 +1,11 @@
+enum DriveControl { Arcade, Curvature, Tank };
+
 class DrivetrainConstants {
 
     public:
+        static constexpr DriveControl drive_control = DriveControl::Curvature;
+        static constexpr bool square_inputs = true;
+
         static constexpr int front_left_motor = 9;
         static constexpr int front_right_motor = 10;
         static constexpr int back_left_motor = 1;
