@@ -3,14 +3,14 @@ enum DriveControl { Arcade, Curvature, Tank };
 class DrivetrainConstants {
 
     public:
-        static constexpr DriveControl drive_control = DriveControl::Arcade;
-        static constexpr bool square_inputs = false;
+        static constexpr DriveControl drive_control = DriveControl::Tank;
+        static constexpr bool square_inputs = true;
 
         /**
          * @brief Defines the ports for the motors of the drivetrain.
          * To change the number of motors, update lines nine and ten of drivetrain.h.
          */
-        static constexpr int front_left_motor = 9, front_right_motor = 10, back_left_motor = 1, back_right_motor = 2;
+        static constexpr int front_left_motor = 20, front_right_motor = 11, back_left_motor = 19, back_right_motor = 12;
 
         /**
          * @brief Defines if the motor groups of the drivetrain are reversed.
