@@ -3,8 +3,8 @@ enum DriveControl { Arcade, Curvature, Tank };
 class DrivetrainConstants {
 
     public:
-        static constexpr DriveControl drive_control = DriveControl::Curvature;
-        static constexpr bool square_inputs = true;
+        static constexpr DriveControl drive_control = DriveControl::Arcade;
+        static constexpr bool square_inputs = false;
 
         /**
          * @brief Defines the ports for the motors of the drivetrain.

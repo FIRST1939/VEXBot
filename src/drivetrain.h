@@ -17,7 +17,7 @@ class Drivetrain {
         double right_speed = 0.0;
 
         Drivetrain ();
-        void drive (int analogOne, int analogTwo);
+        void drive (int analogLeftY, int analogRightX, int analogRightY);
         void arcadeDrive (int analogSpeed, int analogRotation);
         void curvatureDrive (int analogSpeed, int analogRotation);
         void tankDrive (int leftAnalogSpeed, int rightAnalogSpeed);
@@ -32,23 +32,26 @@ Drivetrain::Drivetrain () {
     this -> right_motor_group.set_reversed(DrivetrainConstants::right_motors_reversed);
 }
 
-void Drivetrain::drive (int analogOne, int analogTwo) {
+void Drivetrain::drive (int analogLeftY, int analogRightX, int analogRightY) {
 
-    double one = analogOne / 127.0;
-    double two = analogTwo / 127.0;
+    double leftY = analogLeftY / 127.0;
+    double rightX = analogRightX / 127.0;
+    double rightY = analogRightY / 127.0;
 
     if (this -> square_inputs) {
 
-        one *= std::abs(one);
-        two *= std::abs(two);
+        leftY *= std::abs(leftY);
+        rightX *= std::abs(rightX);
+        rightY *= std::abs(rightY);
     }
 
-    int adjustedAnalogOne = one * 127.0;
-    int adjustedAnalogTwo = two * 127.0;
+    int adjustedLeftY = leftY * 127.0;
+    int adjustedRightX = rightX * 127.0;
+    int adjustedRightY = rightY * 127.0;
 
-    if (this -> drive_control == DriveControl::Arcade) { this -> arcadeDrive(adjustedAnalogOne, adjustedAnalogTwo); } 
-    else if (this -> drive_control == DriveControl::Curvature) { this -> curvatureDrive(adjustedAnalogOne, adjustedAnalogTwo); } 
-    else { this -> tankDrive(adjustedAnalogOne, adjustedAnalogTwo); }
+    if (this -> drive_control == DriveControl::Arcade) { this -> arcadeDrive(adjustedLeftY, adjustedRightX); } 
+    else if (this -> drive_control == DriveControl::Curvature) { this -> curvatureDrive(adjustedLeftY, adjustedRightX); } 
+    else { this -> tankDrive(adjustedLeftY, adjustedRightY); }
 }
 
 void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation) {
