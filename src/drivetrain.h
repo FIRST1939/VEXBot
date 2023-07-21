@@ -39,51 +39,9 @@ void Drivetrain::drive (int analogOne, int analogTwo) {
     int adjustedAnalogOne = one * 127.0;
     int adjustedAnalogTwo = two * 127.0;
 
-    if (this -> drive_control == DriveControl::Arcade) { this -> arcadeDrive(adjustedAnalogOne, adjustedAnalogTwo); } 
-    else if (this -> drive_control == DriveControl::Curvature) { this -> curvatureDrive(adjustedAnalogOne, adjustedAnalogTwo); } 
-    else { this -> tankDrive(adjustedAnalogOne, adjustedAnalogTwo); }
+    
 }
 
-void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation) {
-
-    double speed = analogSpeed / 127.0;
-    double rotation = -0.5 * analogRotation / 127.0;
-
-    double left = rotation - speed;
-	double right = rotation + speed;
-			
-	if (std::max(std::abs(left), std::abs(right)) > 1.0) {
-
-		left /= std::max(std::abs(left), std::abs(right));
-		right /= std::max(std::abs(left), std::abs(right));
-	}
-
-    this -> left_speed = -left;
-    this -> right_speed = right;
-    this -> left_motor_group.move(-left * 127.0);
-    this -> right_motor_group.move(-right * 127.0);
-}
-
-void Drivetrain::curvatureDrive (int analogSpeed, int analogRotation) {
-
-    double speed = analogSpeed / 127.0;
-    double rotation = analogRotation / 127.0;
-    if (speed > 0.0) { rotation *= -1.0; }
-
-    double leftSpeed = speed - std::abs(speed) * rotation;
-    double rightSpeed = speed + std::abs(speed) * rotation;
-
-    if (std::max(std::abs(leftSpeed), std::abs(rightSpeed)) > 1.0) {
-
-        leftSpeed /= std::max(std::abs(leftSpeed), std::abs(rightSpeed));
-        rightSpeed /= std::max(std::abs(leftSpeed), std::abs(rightSpeed));
-    }
-
-    this -> left_speed = leftSpeed;
-    this -> right_speed = rightSpeed;
-    this -> left_motor_group.move(leftSpeed * 127.0);
-    this -> right_motor_group.move(-rightSpeed * 127.0);
-}
 
 void Drivetrain::tankDrive (int leftAnalogSpeed, int rightAnalogSpeed) {
 
