@@ -16,6 +16,7 @@ class Drivetrain {
         double left_speed = 0.0;
         double right_speed = 0.0;
 
+        Drivetrain ();
         void drive (int analogOne, int analogTwo);
         void arcadeDrive (int analogSpeed, int analogRotation);
         void curvatureDrive (int analogSpeed, int analogRotation);
@@ -24,6 +25,12 @@ class Drivetrain {
         void driveStraight (double inches);
         void turn (double degrees);
 };
+
+Drivetrain::Drivetrain () {
+
+    this -> left_motor_group.set_reversed(DrivetrainConstants::left_motors_reversed);
+    this -> right_motor_group.set_reversed(DrivetrainConstants::right_motors_reversed);
+}
 
 void Drivetrain::drive (int analogOne, int analogTwo) {
 
