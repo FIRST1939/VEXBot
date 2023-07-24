@@ -54,7 +54,8 @@ void opcontrol () {
 
         drivetrain.drive(
             controller.get_analog(ANALOG_LEFT_Y), 
-            controller.get_analog(ANALOG_RIGHT_X)
+            controller.get_analog(ANALOG_RIGHT_X),
+            controller.get_analog(ANALOG_RIGHT_Y)
         );
 
 		pros::lcd::print(1, "Left Speed: %f", drivetrain.left_speed);
