@@ -1,9 +1,11 @@
+#pragma once
+
 enum DriveControl { Arcade, Curvature, Tank };
 
 class DrivetrainConstants {
 
     public:
-        static constexpr DriveControl drive_control = DriveControl::Arcade;
+        static constexpr DriveControl driver_control = DriveControl::Arcade;
         static constexpr bool square_inputs = false;
 
         /**

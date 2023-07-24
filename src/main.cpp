@@ -1,7 +1,8 @@
 #include "main.h"
 #include <string>
 
-#include "drivetrain.h"
+#include "subsystems/drivetrain.h"
+#include "commands/autonomous/drive_square.h"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -50,15 +51,8 @@ void competition_initialize() {}
 void autonomous() {
 
 	Drivetrain drivetrain;
-
-	for (int i = 0; i < 4; i++) {
-
-		drivetrain.driveStraight(12);
-		pros::delay(2000);
-
-		drivetrain.turn(90);
-		pros::delay(2000);
-	}
+    DriveSquare drive_square;
+    drive_square.execute();
 }
 
 /**

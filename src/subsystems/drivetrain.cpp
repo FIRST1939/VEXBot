@@ -1,30 +1,5 @@
-#include "main.h"
-#include <string>
-
-#include "constants.h"
-
-class Drivetrain {
-
-    private:
-        pros::MotorGroup left_motor_group = pros::MotorGroup({DrivetrainConstants::front_left_motor, DrivetrainConstants::back_left_motor});
-        pros::MotorGroup right_motor_group = pros::MotorGroup({DrivetrainConstants::front_right_motor, DrivetrainConstants::back_right_motor});
-
-        DriveControl drive_control = DrivetrainConstants::drive_control;
-        bool square_inputs = DrivetrainConstants::square_inputs;
-    
-    public:
-        double left_speed = 0.0;
-        double right_speed = 0.0;
-
-        Drivetrain ();
-        void drive (int analogLeftY, int analogRightX, int analogRightY);
-        void arcadeDrive (int analogSpeed, int analogRotation);
-        void curvatureDrive (int analogSpeed, int analogRotation);
-        void tankDrive (int leftAnalogSpeed, int rightAnalogSpeed);
-
-        void driveStraight (double inches);
-        void turn (double degrees);
-};
+#include "drivetrain.h"
+#include "../constants.h"
 
 Drivetrain::Drivetrain () {
 
@@ -49,9 +24,15 @@ void Drivetrain::drive (int analogLeftY, int analogRightX, int analogRightY) {
     int adjustedRightX = rightX * 127.0;
     int adjustedRightY = rightY * 127.0;
 
-    if (this -> drive_control == DriveControl::Arcade) { this -> arcadeDrive(adjustedLeftY, adjustedRightX); } 
-    else if (this -> drive_control == DriveControl::Curvature) { this -> curvatureDrive(adjustedLeftY, adjustedRightX); } 
+    if (this -> driver_control == DriveControl::Arcade) { this -> arcadeDrive(adjustedLeftY, adjustedRightX); } 
+    else if (this -> driver_control == DriveControl::Curvature) { this -> curvatureDrive(adjustedLeftY, adjustedRightX); } 
     else { this -> tankDrive(adjustedLeftY, adjustedRightY); }
+}
+
+void Drivetrain::stop () {
+
+    this -> left_motor_group.move(0);
+    this -> right_motor_group.move(0);
 }
 
 void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation) {
