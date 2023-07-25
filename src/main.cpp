@@ -45,23 +45,46 @@ void autonomous() {
 /**
 Driver control
  */
-void opcontrol () {
+void opcontrol () 
+{
 
-
-	pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
-	while (true) {
-		
+	while (true)
+	 {
+		//Tank drive 
 		LF = -controller.get_analog(ANALOG_LEFT_Y);
 		LR = -controller.get_analog(ANALOG_LEFT_Y);
 		RF = controller.get_analog(ANALOG_RIGHT_Y);
 		RR = controller.get_analog(ANALOG_RIGHT_Y);
 
+		//Intake operation
+		if (controller.get_digital(DIGITAL_R1))
+		{
+			Intake = 127;
+		}
+		else if(controller.get_digital(DIGITAL_R2))
+		{
+			Intake = -127;
+		}
+		else 
+		{
+			Intake = 0;
+		}
 
-		pros::delay(2);
+		//Shooter operation
+		if (controller.get_digital(DIGITAL_L1))
+		{
+			Shooter = 127;
+		}
+		else if(controller.get_digital(DIGITAL_L2))
+		{
+			Shooter = -127;
+		}
+		else 
+		{
+			Shooter = 0;
+		}
+		pros::delay(25);
 
-		
-		//pros::lcd::print(1, ": %f", drivetrain.right_speed);
 	
 	}
 }
