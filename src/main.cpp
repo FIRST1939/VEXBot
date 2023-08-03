@@ -1,7 +1,7 @@
 #include "main.h"
 #include <string>
 
-#include "selection.h"
+#include "lib/selector.h"
 #include "subsystems/drivetrain.h"
 #include "commands/autonomous/drive_square.h"
 
@@ -75,9 +75,6 @@ void autonomous () {
  */
 void opcontrol () {
 
-    pros::delay(2500);
-    autonomous();
-/**
 	Drivetrain drivetrain;
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -89,9 +86,6 @@ void opcontrol () {
             controller.get_analog(ANALOG_RIGHT_Y)
         );
 
-		pros::lcd::print(1, "Left Speed: %f", drivetrain.left_speed);
-		pros::lcd::print(2, "Right Speed: %f", drivetrain.right_speed);
 		pros::delay(20);
-	}s
-*/
+	}
 }

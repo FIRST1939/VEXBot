@@ -7,13 +7,15 @@
 class Drivetrain {
 
     private:
-        pros::MotorGroup left_motor_group = pros::MotorGroup({DrivetrainConstants::front_left_motor, DrivetrainConstants::back_left_motor});
-        pros::MotorGroup right_motor_group = pros::MotorGroup({DrivetrainConstants::front_right_motor, DrivetrainConstants::back_right_motor});
+        pros::Motor back_left_motor = pros::Motor(DrivetrainConstants::back_left_motor, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
+        pros::Motor back_right_motor = pros::Motor(DrivetrainConstants::back_right_motor, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
         DriveControl driver_control = DrivetrainConstants::driver_control;
         bool square_inputs = DrivetrainConstants::square_inputs;
     
     public:
+        pros::Motor front_left_motor = pros::Motor(DrivetrainConstants::front_left_motor, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
+        pros::Motor front_right_motor = pros::Motor(DrivetrainConstants::front_right_motor, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
         double left_speed = 0.0;
         double right_speed = 0.0;
 

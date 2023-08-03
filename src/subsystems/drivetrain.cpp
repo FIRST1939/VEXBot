@@ -3,8 +3,10 @@
 
 Drivetrain::Drivetrain () {
 
-    this -> left_motor_group.set_reversed(DrivetrainConstants::left_motors_reversed);
-    this -> right_motor_group.set_reversed(DrivetrainConstants::right_motors_reversed);
+    this -> front_left_motor.set_reversed(DrivetrainConstants::front_left_motor_reversed);
+    this -> front_right_motor.set_reversed(DrivetrainConstants::front_right_motor_reversed);
+    this -> back_left_motor.set_reversed(DrivetrainConstants::back_left_motor_reversed);
+    this -> back_right_motor.set_reversed(DrivetrainConstants::back_right_motor_reversed);
 }
 
 void Drivetrain::drive (int analogLeftY, int analogRightX, int analogRightY) {
@@ -31,8 +33,10 @@ void Drivetrain::drive (int analogLeftY, int analogRightX, int analogRightY) {
 
 void Drivetrain::stop () {
 
-    this -> left_motor_group.move(0);
-    this -> right_motor_group.move(0);
+    this -> front_left_motor.move(0);
+    this -> front_right_motor.move(0);
+    this -> back_left_motor.move(0);
+    this -> back_right_motor.move(0);
 }
 
 void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation) {
@@ -51,8 +55,11 @@ void Drivetrain::arcadeDrive (int analogSpeed, int analogRotation) {
 
     this -> left_speed = -left;
     this -> right_speed = right;
-    this -> left_motor_group.move(-left * 127.0);
-    this -> right_motor_group.move(-right * 127.0);
+
+    this -> front_left_motor.move(-left * 127.0);
+    this -> front_right_motor.move(right * 127.0);
+    this -> back_left_motor.move(-left * 127.0);
+    this -> back_right_motor.move(right * 127.0);
 }
 
 void Drivetrain::curvatureDrive (int analogSpeed, int analogRotation) {
@@ -72,8 +79,11 @@ void Drivetrain::curvatureDrive (int analogSpeed, int analogRotation) {
 
     this -> left_speed = leftSpeed;
     this -> right_speed = rightSpeed;
-    this -> left_motor_group.move(leftSpeed * 127.0);
-    this -> right_motor_group.move(-rightSpeed * 127.0);
+
+    this -> front_left_motor.move(leftSpeed * 127.0);
+    this -> front_right_motor.move(-rightSpeed * 127.0);
+    this -> back_left_motor.move(leftSpeed * 127.0);
+    this -> back_right_motor.move(-rightSpeed * 127.0);
 }
 
 void Drivetrain::tankDrive (int leftAnalogSpeed, int rightAnalogSpeed) {
@@ -83,8 +93,11 @@ void Drivetrain::tankDrive (int leftAnalogSpeed, int rightAnalogSpeed) {
 
     this -> left_speed = leftSpeed;
     this -> right_speed = rightSpeed;
-    this -> left_motor_group.move(leftSpeed * 127.0);
-    this -> right_motor_group.move(-rightSpeed * 127.0);
+
+    this -> front_left_motor.move(leftSpeed * 127.0);
+    this -> front_right_motor.move(-rightSpeed * 127.0);
+    this -> back_left_motor.move(leftSpeed * 127.0);
+    this -> back_right_motor.move(-rightSpeed * 127.0);
 }
 
 void Drivetrain::driveStraight (double inches) {
@@ -92,9 +105,11 @@ void Drivetrain::driveStraight (double inches) {
     double rotations = inches / (AutonomousConstants::wheel_diameter * std::atan(1.0) * 4.0);
     int encoderClicks = rotations * 900;
 
-    this -> left_motor_group.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
-    this -> right_motor_group.move_relative(-encoderClicks, AutonomousConstants::maximum_rpm);
-    while (this -> left_motor_group.get_actual_velocities()[0] != 0.0) { pros::delay(10); }
+    this -> front_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> front_right_motor.move_relative(-encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> back_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> back_right_motor.move_relative(-encoderClicks, AutonomousConstants::maximum_rpm);
+    while (this -> front_left_motor.get_actual_velocity() != 0.0) { pros::delay(10); }
 }
 
 void Drivetrain::turn (double degrees) {
@@ -105,7 +120,9 @@ void Drivetrain::turn (double degrees) {
     double rotations = distanceTraveled / (AutonomousConstants::wheel_diameter * std::atan(1.0) * 4.0);
     int encoderClicks = rotations * 900;
 
-    this -> left_motor_group.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
-    this -> right_motor_group.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
-    while (this -> left_motor_group.get_actual_velocities()[0] != 0.0) { pros::delay(10); }
+    this -> front_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> front_right_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> back_left_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    this -> back_right_motor.move_relative(encoderClicks, AutonomousConstants::maximum_rpm);
+    while (this -> front_left_motor.get_actual_velocity() != 0.0) { pros::delay(10); }
 }
