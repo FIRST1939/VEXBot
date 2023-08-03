@@ -1,9 +1,9 @@
 enum AutonomousMode {DRIVE_SQUARE, DO_NOTHING, SKILLS};
 
-extern const char *btnmMap[];
+extern const char *buttonMap[];
 extern AutonomousMode selected_autonomous;
 
-lv_res_t redBtnmAction (lv_obj_t *btnm, const char *txt);
-lv_res_t blueBtnmAction (lv_obj_t *btnm, const char *txt);
-lv_res_t skillsBtnAction (lv_obj_t *btn);
+lv_res_t redButtonAction (lv_obj_t *button, const char *text);
+lv_res_t blueButtonAction (lv_obj_t *button, const char *text);
+lv_res_t skillsButtonAction (lv_obj_t *button);
 void initializeSelector();
