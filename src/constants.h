@@ -8,10 +8,10 @@ class DrivetrainConstants {
         static constexpr DriveControl driver_control = DriveControl::Arcade;
         static constexpr bool square_inputs = false;
 
-        static constexpr int front_left_motor = 19;
-        static constexpr int front_right_motor = 17;
-        static constexpr int back_left_motor = 20;
-        static constexpr int back_right_motor = 18;
+        static constexpr int front_left_motor = 13;
+        static constexpr int front_right_motor = 11;
+        static constexpr int back_left_motor = 14;
+        static constexpr int back_right_motor = 12;
 
         static constexpr bool front_left_motor_reversed = true;
         static constexpr bool front_right_motor_reversed = false;
