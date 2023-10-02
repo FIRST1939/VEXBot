@@ -12,7 +12,6 @@ void initialize () {
 	pros::lcd::set_background_color(57, 255, 20);
 
 	pros::lcd::print(0, "Running better code than Carlos");
-	//pros::lcd::print(7, "  1.           2.            3.");
 }
 
 /**
@@ -51,17 +50,25 @@ void opcontrol () {
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 	while (true) {
-		
-		LF = -controller.get_analog(ANALOG_LEFT_Y);
-		LR = -controller.get_analog(ANALOG_LEFT_Y);
-		RF = controller.get_analog(ANALOG_RIGHT_Y);
-		RR = controller.get_analog(ANALOG_RIGHT_Y);
+
+		/*
+		LeftFront = -controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X);
+		LeftMiddle = -controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X);
+		LeftRear = -controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X);
+		RightFront = controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X);
+		RightMiddle = controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X);
+		RightRear = controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X);
+		*/
 
 
-		pros::delay(2);
+		LeftFront = -controller.get_analog(ANALOG_LEFT_Y);
+		LeftMiddle = -controller.get_analog(ANALOG_LEFT_Y);
+		LeftRear = -controller.get_analog(ANALOG_LEFT_Y);
+		RightFront = controller.get_analog(ANALOG_RIGHT_Y);
+		RightMiddle = controller.get_analog(ANALOG_RIGHT_Y);
+		RightRear = controller.get_analog(ANALOG_RIGHT_Y);
 
-		
-		//pros::lcd::print(1, ": %f", drivetrain.right_speed);
-	
+
+		pros::delay(2);	
 	}
 }
