@@ -52,13 +52,18 @@ void opcontrol () {
 
 	while (true) {
 		
+		/* my name is Zahra */
+
+		/*
 		LF = -controller.get_analog(ANALOG_LEFT_Y);
 		LM = -controller.get_analog(ANALOG_LEFT_Y);
 		LR = -controller.get_analog(ANALOG_LEFT_Y);
 		RF = controller.get_analog(ANALOG_RIGHT_Y);
 		RM = controller.get_analog(ANALOG_RIGHT_Y);
 		RR = controller.get_analog(ANALOG_RIGHT_Y);
+		*/
 
+		CATAPULT =controller.get_analog(ANALOG_LEFT_Y);
 
 		pros::delay(2);
 
