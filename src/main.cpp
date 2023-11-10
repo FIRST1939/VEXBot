@@ -1,7 +1,11 @@
 #include "main.h"
-#include <string>
 
 #include "constants.h"
+#include "robot.h"
+
+Drivetrain drivetrain(DriveType::ARCADE);
+Triball triball();
+
 
 /**
 Screen setup and pre ran funtions
@@ -11,7 +15,18 @@ void initialize () {
 	pros::lcd::initialize(); 
 	pros::lcd::set_background_color(57, 255, 20);
 
-	pros::lcd::print(0, "Running better code than Carlos");
+	pros::lcd::print(0, "Calibrating...");
+
+	// TODO potential risk of infinite loop if pros::delay stops calibration...
+	pros::delay(3000);
+	while (inertial.is_calibrating()) {
+		pros::delay(100);
+	}
+
+	pros::lcd::print(1, "LIVE MAS 🔔");
+
+	// would be nice for autos?
+	//pros::lcd::print(7, "  1.           2.            3.");
 }
 
 /**
@@ -29,16 +44,6 @@ Auto code runs here
  */
 void autonomous() {
 
-	// Drivetrain drivetrain;
-
-	// for (int i = 0; i < 4; i++) {
-
-	// 	drivetrain.driveStraight(12);
-	// 	pros::delay(2000);
-
-	// 	drivetrain.turn(90);
-	// 	pros::delay(2000);
-	// }
 }
 
 /**
@@ -46,29 +51,12 @@ Driver control
  */
 void opcontrol () {
 
-
-	pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
 	while (true) {
-
-		/*
-		LeftFront = -controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X);
-		LeftMiddle = -controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X);
-		LeftRear = -controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X);
-		RightFront = controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X);
-		RightMiddle = controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X);
-		RightRear = controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X);
-		*/
-
-
-		LeftFront = -controller.get_analog(ANALOG_LEFT_Y);
-		LeftMiddle = -controller.get_analog(ANALOG_LEFT_Y);
-		LeftRear = -controller.get_analog(ANALOG_LEFT_Y);
-		RightFront = controller.get_analog(ANALOG_RIGHT_Y);
-		RightMiddle = controller.get_analog(ANALOG_RIGHT_Y);
-		RightRear = controller.get_analog(ANALOG_RIGHT_Y);
-
-
+		drivetrain.kachow();
+		triball.shoot();
+		triball.intake();
+		triball.plow();
+		
 		pros::delay(2);	
 	}
 }
