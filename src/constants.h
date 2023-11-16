@@ -1,23 +1,23 @@
-/*Motor Layout
-Name:            Port:
-Left Front (LF)  = 20
-Left Rear (LR)   = 19
-Right Front (RF) = 11
-Right Rear (RR)  = 12
+// TODO update motor ports here
 
+// Declarations for drivetrain motors
+pros::Motor LeftFront (20);
+pros::Motor RightFront (11);
+pros::Motor LeftMiddle (19);
+pros::Motor RightMiddle (13);
+pros::Motor LeftRear (19);
+pros::Motor RightRear (18);
 
-******* possibly burned out motor ports - 7,2,12,6,3,4
+pros::Motor Flywheel (1);
+pros::Motor Intake (2);
 
-
-*/
-
-//Motor declarations for names
-pros::Motor LF (20);
-pros::Motor LR (19);
-pros::Motor RF (11);
-pros::Motor RR (12);
-pros::Motor Intake (14);
-pros::Motor Shooter (15);
-
-//Controller declaration
+// Controllers
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+
+// Handy Enums
+enum DriveType { ARCADE, TANK };
+
+// Gyro
+pros::IMU inertial(10);
+
+// TODO add pneumatic controlls here

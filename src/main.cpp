@@ -1,7 +1,10 @@
 #include "main.h"
-#include <string>
+#include "robot.h"
 
-#include "constants.h"
+// TODO set controller style here
+Drivetrain drivetrain = Drivetrain(DriveType::ARCADE);
+Triball triball = Triball();
+
 
 /**
 Screen setup and pre ran funtions
@@ -11,7 +14,18 @@ void initialize () {
 	pros::lcd::initialize(); 
 	pros::lcd::set_background_color(57, 255, 20);
 
-	pros::lcd::print(0, "Running better code than Carlos");
+	pros::lcd::print(0, "Calibrating...");
+
+	// TODO need to test this.. potential risk of infinite loop if pros::delay stops calibration
+	// feel free to comment out if doesn't work or is hanging up
+	pros::delay(3000);
+	while (inertial.is_calibrating()) {
+		pros::delay(100);
+	}
+
+	pros::lcd::print(1, "LIVE MAS 🔔");
+
+	// would be nice for autos?
 	//pros::lcd::print(7, "  1.           2.            3.");
 }
 
@@ -30,61 +44,19 @@ Auto code runs here
  */
 void autonomous() {
 
-	// Drivetrain drivetrain;
-
-	// for (int i = 0; i < 4; i++) {
-
-	// 	drivetrain.driveStraight(12);
-	// 	pros::delay(2000);
-
-	// 	drivetrain.turn(90);
-	// 	pros::delay(2000);
-	// }
 }
 
 /**
 Driver control
  */
-void opcontrol () 
-{
+void opcontrol () {
 
-	while (true)
-	 {
-		//Tank drive 
-		LF = -controller.get_analog(ANALOG_LEFT_Y);
-		LR = -controller.get_analog(ANALOG_LEFT_Y);
-		RF = controller.get_analog(ANALOG_RIGHT_Y);
-		RR = controller.get_analog(ANALOG_RIGHT_Y);
-
-		//Intake operation
-		if (controller.get_digital(DIGITAL_R1))
-		{
-			Intake = 127;
-		}
-		else if(controller.get_digital(DIGITAL_R2))
-		{
-			Intake = -127;
-		}
-		else 
-		{
-			Intake = 0;
-		}
-
-		//Shooter operation
-		if (controller.get_digital(DIGITAL_L1))
-		{
-			Shooter = 127;
-		}
-		else if(controller.get_digital(DIGITAL_L2))
-		{
-			Shooter = -127;
-		}
-		else 
-		{
-			Shooter = 0;
-		}
-		pros::delay(25);
-
-	
+	while (true) {
+		drivetrain.kachow();
+		triball.shoot();
+		triball.intake();
+		triball.plow();
+		
+		pros::delay(2);	
 	}
 }
