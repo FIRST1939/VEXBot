@@ -1,3 +1,5 @@
+// TODO update motor ports here
+
 // Declarations for drivetrain motors
 pros::Motor LeftFront (20);
 pros::Motor RightFront (11);
@@ -17,3 +19,5 @@ enum DriveType { ARCADE, TANK };
 
 // Gyro
 pros::IMU inertial(10);
+
+// TODO add pneumatic controlls here
