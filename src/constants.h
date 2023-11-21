@@ -5,11 +5,11 @@ pros::Motor LeftFront (20);
 pros::Motor RightFront (11);
 pros::Motor LeftMiddle (19);
 pros::Motor RightMiddle (13);
-pros::Motor LeftRear (19);
-pros::Motor RightRear (18);
+pros::Motor LeftRear (18);
+pros::Motor RightRear (14);
 
 pros::Motor Flywheel (1);
-pros::Motor Intake (2);
+pros::Motor Intake (9);
 
 // Controllers
 pros::Controller controller(pros::E_CONTROLLER_MASTER);

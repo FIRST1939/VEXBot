@@ -8,10 +8,10 @@ class Drivetrain {
         void setDrive(int leftPower, int rightPower) {
             LeftFront = -leftPower;
             LeftMiddle = -leftPower;
-            LeftRear = -leftPower;
+            LeftRear = leftPower;
             RightFront = rightPower;
             RightMiddle = rightPower;
-            RightRear = rightPower;
+            RightRear = -rightPower;
         }
 
         void resetDriveEncoders() {

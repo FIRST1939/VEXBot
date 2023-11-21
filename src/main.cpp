@@ -2,7 +2,7 @@
 #include "robot.h"
 
 // TODO set controller style here
-Drivetrain drivetrain = Drivetrain(DriveType::ARCADE);
+Drivetrain drivetrain = Drivetrain(DriveType::TANK);
 Triball triball = Triball();
 
 
@@ -19,9 +19,9 @@ void initialize () {
 	// TODO need to test this.. potential risk of infinite loop if pros::delay stops calibration
 	// feel free to comment out if doesn't work or is hanging up
 	pros::delay(3000);
-	while (inertial.is_calibrating()) {
-		pros::delay(100);
-	}
+	// while (inertial.is_calibrating()) {
+	// 	pros::delay(100)
+	// }
 
 	pros::lcd::print(1, "LIVE MAS 🔔");
 
