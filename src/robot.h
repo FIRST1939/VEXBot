@@ -120,9 +120,7 @@ class Triball {
         void shoot() {
             if (controller.get_digital(DIGITAL_L1)) {
                 Flywheel = 127;
-            } else if (controller.get_digital(DIGITAL_L2)) {
-                Flywheel = -127;
-            } else {
+            }  else {
                 Flywheel = 0;
             }
         }
@@ -138,12 +136,17 @@ class Triball {
         }
 
         void plow() {
-            if (!isPlowing && controller.get_digital(DIGITAL_X)) {
+            if (!isPlowing && controller.get_digital(DIGITAL_L2)) {
                 // TODO push out wings
+                piston1.set_value(true);
+                piston2.set_value(true);
                 isPlowing = !isPlowing;
-            } else if (isPlowing && controller.get_digital(DIGITAL_X)) {
+            } else if (isPlowing && controller.get_digital(DIGITAL_L2)) {
                 // TODO bring in wings
+                piston1.set_value(false);
+                piston2.set_value(false);
                 isPlowing = !isPlowing;
             }
         }
+
 };

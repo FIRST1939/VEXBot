@@ -2,7 +2,7 @@
 #include "robot.h"
 
 // TODO set controller style here
-Drivetrain drivetrain = Drivetrain(DriveType::TANK);
+Drivetrain drivetrain = Drivetrain(DriveType::ARCADE);
 Triball triball = Triball();
 
 
@@ -24,6 +24,8 @@ void initialize () {
 	// }
 
 	pros::lcd::print(1, "LIVE MAS 🔔");
+
+	
 
 	// would be nice for autos?
 	//pros::lcd::print(7, "  1.           2.            3.");

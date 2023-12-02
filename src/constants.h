@@ -20,4 +20,6 @@ enum DriveType { ARCADE, TANK };
 // Gyro
 pros::IMU inertial(10);
 
-// TODO add pneumatic controlls here
+// Pneumatic controls here
+pros::ADIDigitalOut piston1 (1);
+pros::ADIDigitalOut piston2 (2); 
