@@ -1,4 +1,7 @@
 #include "constants.h"
+#include <iostream>
+
+using namespace std;
 
 class Drivetrain {
     private:
@@ -8,10 +11,10 @@ class Drivetrain {
         void setDrive(int leftPower, int rightPower) {
             LeftFront = -leftPower;
             LeftMiddle = -leftPower;
-            LeftRear = -leftPower;
+            LeftRear = leftPower;
             RightFront = rightPower;
             RightMiddle = rightPower;
-            RightRear = rightPower;
+            RightRear = -rightPower;
         }
 
         void resetDriveEncoders() {
@@ -64,6 +67,7 @@ class Drivetrain {
             }
         }
 
+
         void driveTo(int position, int power) {
             resetDriveEncoders();
             int direction = abs(position) / position;
@@ -80,22 +84,25 @@ class Drivetrain {
         void turnTo(int degrees, int power) {
             int direction = abs(degrees) / degrees;
 
-            inertial.reset();
+            inertial.tare_heading();
 
             // TODO need to test this once gyro/intertial is installed
             // https://www.youtube.com/watch?v=6gZcQoqVOvA
-            while (fabs(inertial.get_yaw()) < abs(degrees * 10)) {
-                setDrive(power * -direction, power * direction);
+            while (inertial.get_heading() < abs(degrees)) {
+                pros::lcd::print(3, "Bipity");
+                setDrive(power * direction, power * -direction);
                 pros::delay(2);
             }
             
             // loosing momentum
             pros::delay(100);
+            pros::lcd::print(4, "Bopity");
 
             // TODO potential for infinite loop... need to test
-            if (inertial.get_yaw() != abs(degrees * 10)) {
-                turnTo((degrees * 10) - inertial.get_yaw(), 0.5 * power);
+            if (inertial.get_heading() != abs(degrees * 10)) {
+                turnTo((degrees) - inertial.get_heading(), 0.5 * power);
             }
+            pros::lcd::print(5, "Boop");
         }
 
         void brake(int duration, int power) {
@@ -140,9 +147,13 @@ class Triball {
         void plow() {
             if (!isPlowing && controller.get_digital(DIGITAL_X)) {
                 // TODO push out wings
+                piston1.set_value(true);
+                // piston2.set_value(true);
                 isPlowing = !isPlowing;
             } else if (isPlowing && controller.get_digital(DIGITAL_X)) {
                 // TODO bring in wings
+                piston1.set_value(false);
+                // piston2.set_value(false);
                 isPlowing = !isPlowing;
             }
         }
