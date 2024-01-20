@@ -45,7 +45,7 @@ void competition_initialize() {}
 Auto code runs here
  */
 void autonomous() {
-	//drivetrain.driveTo(300, 50);
+	drivetrain.driveTo(300, 50);
 	drivetrain.turnTo(90, 50);
 }
 
@@ -53,10 +53,8 @@ void autonomous() {
 Driver control
  */
 void opcontrol () {
-	pros::lcd::print(6, "%f", inertial.get_heading());
-
 	while (true) {
-		drivetrain.kachow();
+		drivetrain.drive();
 		triball.shoot();
 		triball.intake();
 		triball.plow();

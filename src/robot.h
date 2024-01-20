@@ -7,7 +7,7 @@ class Drivetrain {
     private:
         DriveType driveType;
 
-        // TODO might need to update this depending on how drivetrain is oriented
+        // Sets the speed and direction of drive motors
         void setDrive(int leftPower, int rightPower) {
             LeftFront = -leftPower;
             LeftMiddle = -leftPower;
@@ -17,6 +17,7 @@ class Drivetrain {
             RightRear = -rightPower;
         }
 
+        // Resets all drive encoders
         void resetDriveEncoders() {
             LeftFront.tare_position();
             LeftMiddle.tare_position();
@@ -26,6 +27,7 @@ class Drivetrain {
             RightRear.tare_position();
         }
 
+        // Gets the average encoder value of the drivetrain
         double avgEncoderValue() {
             return (
                 fabs(LeftFront.get_position()) +
@@ -51,7 +53,8 @@ class Drivetrain {
             RightRear.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
         }
         
-        void kachow() {
+        // Code to move the robot
+        void drive() {
             if (driveType == DriveType::ARCADE) {
                 // Arcade style drive
                 this->setDrive(
@@ -67,13 +70,11 @@ class Drivetrain {
             }
         }
 
-
+        // Drives forward/backward to arbitrary position (motor clicks) at a certain power
         void driveTo(int position, int power) {
             resetDriveEncoders();
             int direction = abs(position) / position;
 
-            // TODO need to test this once gyro/intertial is installed
-            // https://www.youtube.com/watch?v=6gZcQoqVOvA
             while (avgEncoderValue() < abs(position)) {
                 setDrive(power * direction, power * direction);
                 pros::delay(2);
@@ -81,30 +82,26 @@ class Drivetrain {
             brake(50, 10);
         }
 
+        // Turns robot X degrees at a certain power
         void turnTo(int degrees, int power) {
             int direction = abs(degrees) / degrees;
-
             inertial.tare_heading();
 
-            // TODO need to test this once gyro/intertial is installed
-            // https://www.youtube.com/watch?v=6gZcQoqVOvA
             while (inertial.get_heading() < abs(degrees)) {
-                pros::lcd::print(3, "Bipity");
                 setDrive(power * direction, power * -direction);
                 pros::delay(2);
             }
             
             // loosing momentum
             pros::delay(100);
-            pros::lcd::print(4, "Bopity");
 
             // TODO potential for infinite loop... need to test
             if (inertial.get_heading() != abs(degrees * 10)) {
                 turnTo((degrees) - inertial.get_heading(), 0.5 * power);
             }
-            pros::lcd::print(5, "Boop");
         }
 
+        // Brakes the robot (since motors are set to coast)
         void brake(int duration, int power) {
             setDrive(-power, -power);
             pros::delay(duration);
@@ -124,6 +121,7 @@ class Triball {
             this->isPlowing = false;
         }
 
+        // Run shooter
         void shoot() {
             if (controller.get_digital(DIGITAL_L1)) {
                 Flywheel = 127;
@@ -134,6 +132,7 @@ class Triball {
             }
         }
 
+        // Run intake
         void intake() {
             if (controller.get_digital(DIGITAL_R1)) {
                 Intake = 127;
@@ -144,16 +143,17 @@ class Triball {
             }
         }
 
+        // Run wings
         void plow() {
             if (!isPlowing && controller.get_digital(DIGITAL_X)) {
-                // TODO push out wings
                 piston1.set_value(true);
-                // piston2.set_value(true);
+                piston2.set_value(true);
+
                 isPlowing = !isPlowing;
             } else if (isPlowing && controller.get_digital(DIGITAL_X)) {
-                // TODO bring in wings
                 piston1.set_value(false);
-                // piston2.set_value(false);
+                piston2.set_value(false);
+
                 isPlowing = !isPlowing;
             }
         }
