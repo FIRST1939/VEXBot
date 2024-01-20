@@ -3,6 +3,120 @@
 
 #include "constants.h"
 
+
+void touchBar() {
+	LF = 127;
+	LR = 127;
+	RF = -127;
+	RR = -127;
+
+	pros::delay(2000);	
+
+	LF = 0;
+	LR = 0;
+	RF = 0;
+	RR = 0;
+}
+
+
+void triball(){
+	LF = 90;
+	LR = 90;
+	RF = -90;
+	RR = -90;
+
+	pros::delay(1000);
+	INTAKE = -127; 	
+	PISTON.set_value (true);
+
+	pros::delay(500);
+	LF = 0;
+	LR = 0;
+	RF = 0;
+	RR = 0;
+	INTAKE = 0;
+
+	pros::delay(500);
+	LF = 90;
+	LR = 90;
+	RF = 90;
+	RR = 90;
+
+	pros::delay(250);
+	LF = 90;
+	LR = 90;
+	RF = -90;
+	RR = -90; 
+
+	pros::delay(2000);
+	LF = 0;
+	LR = 0;
+	RF = 0;
+	RR = 0;
+}
+
+
+void fly(){
+	FLYWHEEL = 127;
+}
+
+void arcadeDrive(pros::Controller controller) {
+	LF = -(controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X));
+	LR = -(controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X));
+	RF = (controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X));
+	RR = (controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X));
+}
+
+void tankDrive(pros::Controller controller) {
+	LF = controller.get_analog(ANALOG_LEFT_Y);
+	LR = controller.get_analog(ANALOG_LEFT_Y);
+	RF = -controller.get_analog(ANALOG_RIGHT_Y);
+	RR = -controller.get_analog(ANALOG_RIGHT_Y);
+}
+
+/*
+void runCatapult(pros::Controller controller) {
+	if (controller.get_digital(DIGITAL_X)) {
+		CATAPULT = 100;
+	} else {
+		CATAPULT = 0;
+	}
+}
+*/
+
+void runIntake(pros::Controller controller) {
+	if (controller.get_digital(DIGITAL_R1)) {
+		INTAKE = 127;
+	} else {
+		if (controller.get_digital(DIGITAL_R2)) {
+			INTAKE = -127;
+		} else {
+			INTAKE = 0;
+		}
+	}
+	
+}
+
+void runFlywheel(pros::Controller controller) {
+	if (controller.get_digital(DIGITAL_L1)) {
+		FLYWHEEL = 127;
+	} else {
+		if (controller.get_digital(DIGITAL_L2)) {
+			FLYWHEEL = -127;
+		} else {
+			FLYWHEEL = 0;
+		}
+	}
+}
+
+void runWings(pros::Controller controller) {
+	if (controller.get_digital(DIGITAL_X) ) {
+		PISTON.set_value (true);
+	} else { 
+		PISTON.set_value (false);
+	}
+
+}
 /**
 Screen setup and pre ran funtions
  */
@@ -16,7 +130,7 @@ void initialize () {
 }
 
 /**
-diabled screen output
+disabled screen output
  */
 void disabled() {}
 
@@ -38,59 +152,16 @@ Driver control
 void opcontrol () {
 
 
-	pros::Controller controller(pros::E_CONTROLLER_MASTER);
+	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
 	while (true) {
 		// tankDrive(controller);
-		arcadeDrive(controller);
-		runCatapult(controller);
-		
+		arcadeDrive(master);
+		runIntake(partner);
+		runFlywheel(master);
+		runWings (partner);
 		pros::delay(2);	
 	}
 }
 
-
-
-void touchBar() {
-	LF = 127;
-	LM = 127;
-	LR = 127;
-	RF = -127;
-	RM = -127;
-	RR = -127;
-
-	pros::delay(2000);	
-
-	LF = 0;
-	LM = 0;
-	LR = 0;
-	RF = 0;
-	RM = 0;
-	RR = 0;
-}
-
-void arcadeDrive(pros::Controller controller) {
-	LF = -(controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X));
-	LM = -(controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X));
-	LR = -(controller.get_analog(ANALOG_LEFT_Y) + controller.get_analog(ANALOG_RIGHT_X));
-	RF = (controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X));
-	RM = (controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X));
-	RR = (controller.get_analog(ANALOG_LEFT_Y) - controller.get_analog(ANALOG_RIGHT_X));
-}
-
-void tankDrive(pros::Controller controller) {
-	LF = controller.get_analog(ANALOG_LEFT_Y);
-	LM = controller.get_analog(ANALOG_LEFT_Y);
-	LR = controller.get_analog(ANALOG_LEFT_Y);
-	RF = -controller.get_analog(ANALOG_RIGHT_Y);
-	RM = -controller.get_analog(ANALOG_RIGHT_Y);
-	RR = -controller.get_analog(ANALOG_RIGHT_Y);
-}
-
-void runCatapult(pros::Controller controller) {
-	if (controller.get_digital(DIGITAL_X)) {
-		CATAPULT = 100;
-	} else {
-		CATAPULT = 0;
-	}
-}
