@@ -10,7 +10,7 @@ void touchBar() {
 	RF = -127;
 	RR = -127;
 
-	pros::delay(2000);	
+	pros::delay(1800);	
 
 	LF = 0;
 	LR = 0;
